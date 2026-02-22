@@ -20,7 +20,6 @@ function lib.sharpblock(exe_path, exe_args)
     elseif type(exe_args) == "string" then
         sharpblock_args[#sharpblock_args] = exe_args
     end
-    print(sharpblock_args)
     print("Pipe Name" .. fullpipename)
     local task = rpc.ExecuteAssembly(session:Context(),
                                      ProtobufMessage.New(
