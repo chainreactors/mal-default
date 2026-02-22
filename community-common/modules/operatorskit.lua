@@ -40,7 +40,7 @@ end
 local function run_addlocalcert(args)
     local session = active()
     args = parse_addlocalcert(args)
-    bof_path = bof_dir .. "AddLocalCert/addlocalcert" .. ".o"
+    local bof_path = bof_dir .. "AddLocalCert/addlocalcert" .. ".o"
     return bof(session, script_resource(bof_path), args, true)
 end
 command("operatorskit:addlocalcert", run_addlocalcert, '"Command: operatorskit addlocalcert <path to certificate.cer file> <store name> "<friendly name>"', "T1553.003")
@@ -98,7 +98,7 @@ end
 local function run_blindeventlog(args)
     local session = active()
     args = parse_blindeventlog(args)
-    bof_path = bof_dir .. "BlindEventlog/blindeventlog" .. ".o"
+    local bof_path = bof_dir .. "BlindEventlog/blindeventlog" .. ".o"
     return bof(session, script_resource(bof_path), args, true)
 end
 command("operatorskit:blindeventlog", run_blindeventlog, 'Command: operatorskit blindeventlog <action>', "T1070.001")
@@ -284,7 +284,7 @@ local function run_enumhandles(args)
     local session = active()
     args = parse_enumhandles(args)
     local bofpath = bof_dir .. "EnumHandles/enumhandles" .. ".o"
-    return bof(session, script_resource(bof_path), args, true)
+    return bof(session, script_resource(bofpath), args, true)
 end
 command("operatorskit:enumhandles", run_enumhandles, 'Command: operatorskit enumhandles <search option> <handle type> [PID]', "T1057")
 
@@ -503,7 +503,6 @@ local function parse_passwordspray(args)
     local timer = args[4] or "0"
     local jitter = args[5] or "0"
     local file = read(path)
-    print(password, domain, timer, jitter)
     return bof_pack("bZZii", file, password, domain, timer, jitter)
 end
 local function run_passwordspray(args)

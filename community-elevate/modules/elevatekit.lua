@@ -64,9 +64,9 @@ command("elevatekit:ms16-032", run_ms16_032, "elevatekit ms16-032", "T1068")
 
 -- start cve_2020_0796
 local function run_cve_2020_0796(args)
-    session = active()
-    arch = session.Os.Arch
-    if arch == "x32" then
+    local session = active()
+    local arch = session.Os.Arch
+    if arch == "x86" then
         error("cve-2020-0796 exploit is x64 only")
         return
     end

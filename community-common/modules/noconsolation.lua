@@ -67,7 +67,7 @@ local function run_noconsolation(args)
                 error("Missing --method value")
             end
             method = args[i]
-        elseif arg == "-w" then
+        elseif args[i] == "-w" then
             use_unicode = 1
         elseif args[i] == "--no-output" or args[i] == "-no" then
             nooutput = 1
@@ -90,8 +90,8 @@ local function run_noconsolation(args)
             if i > #args then
                 error("Missing --unload-pe value")
             end
-            unload_pe = args[i+1]
-        elseif arg == "--link-to-peb" or arg == "-ltp" then
+            unload_pe = args[i]
+        elseif args[i] == "--link-to-peb" or args[i] == "-ltp" then
             link_to_peb = 1
         elseif args[i] == "--dont-unload" or args[i] == "-du" then
             dont_unload = 1
@@ -108,22 +108,20 @@ local function run_noconsolation(args)
             if i > #args then
                 error("Missing --load-dependencies value")
             end
-            load_deps = args[i+1]
+            load_deps = args[i]
         elseif args[i] == "--search-paths" or args[i]    == "-sp" then
             i = i + 1
             if i > #args then
                 error("Missing --search-paths value")
             end
             search_paths = args[i]
-        elseif arg == "--inthread" or arg == "-it" then
+        elseif args[i] == "--inthread" or args[i] == "-it" then
             inthread = 1
-        elseif file_exists(args[i]) or args[i]:match('^\p{Alpha}:\\\\.*') then
+        elseif file_exists(args[i]) or args[i]:match('^%a:\\\\.*') then
             path_set = 1
             path = args[i]
             break
-        elseif local_flag == 0 and not file_exists(args[i]) and args[i]:match('^\\p{Alpha}.*\.exe') then
-            error("Specified executable " .. args[i] .." does not exist")
-        elseif local_flag == 0 and not file_exists(args[i]) and args[i]:match('^\p{Alpha}.*\.exe') then
+        elseif local_flag == 0 and not file_exists(args[i]) and args[i]:match('^%a.*%.exe') then
             name_set = 1
             pename = args[i]
         elseif args[i] == "--help" or args[i] == "-h" then
@@ -153,7 +151,7 @@ local function run_noconsolation(args)
     if #free_libs ~= 0 and list_pes == 1 then
         error("The option --list-pes must be ran alone")
     end
-    if #free_libs ~= 0 and unload_pe ~= 0 then
+    if #free_libs ~= 0 and #unload_pe ~= 0 then
         error("The option --unload-pe must be ran alone")
     end
 
@@ -191,14 +189,14 @@ local function run_noconsolation(args)
     local cmdline = pename 
     if path_set == 1 or name_set == 1 then
         for y = i + 1, #args do
-            arg = string.gsub(args[y], '\\"', '"')
+            local arg = string.gsub(args[y], '\\"', '"')
             cmdline = cmdline .. " " .. arg
         end
     end
 
     local mynick = "user1" 
     local time_stamp = timestamp()
-    local pack_args = bof_pack("ZzZbziiiZzziiizziizzziiizzzi", pename, pename, pepath, pebytes, path, local_flag, timeout, headers, cmdline, cmdline ,method,use_unicode,nooutput,alloc_console,close_handles,free_libs,dont_save,list_pes,unload_pe,mynick,time_stamp,link_to_peb,dont_unload,load_all_deps,load_all_deps_but,load_deps,search_paths,inthread)
+    local pack_args = bof_pack("ZzZbziiiZzziiiiziizzziiizzzi", pename, pename, pepath, pebytes, path, local_flag, timeout, headers, cmdline, cmdline ,method,use_unicode,nooutput,alloc_console,close_handles,free_libs,dont_save,list_pes,unload_pe,mynick,time_stamp,link_to_peb,dont_unload,load_all_deps,load_all_deps_but,load_deps,search_paths,inthread)
 
     local bof_file = noconsolation_dir .. "NoConsolation." .. arch .. ".o"
 

